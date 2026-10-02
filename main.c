@@ -1,17 +1,12 @@
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <SDL2/SDL.h>
+
+#include "quadlib.h"
 
 uint16_t size_x = 680;
 uint16_t size_y = 420;
-
-struct particle {
-	int8_t velocity_x;
-	int8_t velocity_y;
-	
-	uint16_t position_x;
-	uint16_t position_y;
-};
 
 
 int main(){
@@ -27,7 +22,7 @@ int main(){
 	SDL_RenderClear( renderer );
 
 	int amount = 20;
-	struct particle *cells = calloc( sizeof( struct particle ), amount );
+	struct Particle *cells = calloc( sizeof( struct Particle ), amount );
 	SDL_Rect rectangles[amount];
 	
 	for( int i = 0; i < amount; i++ ){ 

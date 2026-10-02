@@ -1,7 +1,7 @@
 all:
-	gcc main.c -lSDL2
+	gcc main.c quadlib.c -lSDL2
 debug:
-	gcc -g main.c -lSDL2
+	gcc -g main.c quadlib.c -lSDL2
 clean:
 	rm ?.out
 

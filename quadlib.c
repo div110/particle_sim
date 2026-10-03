@@ -72,3 +72,19 @@ void quad_remove_particle( struct QuadNode *node, struct Particle *particle ){
 	}
 }
 
+struct QuadNode *quad_find( struct QuadNode *root, struct Particle *needle ){
+	if ( !root ){ return NULL; }
+	for ( uint8_t i = 0; i < root->p_index; i++ ){
+		if ( root->particles[ i ] == needle ){ return root; }
+	}
+
+	bool left = ( particle->position_x < node->position_x ) ? true : false ;
+	bool top = ( particle->position_y < node->position_y ) ? true : false;
+
+	if ( top && left ){ return quad_find( root->tl, needle ); }
+	else if ( top && !left ){ return quad_find( root->tr, needle); }
+	else if ( !top && left ){ return quad_find( root->bl, needle); }
+	else if ( !top && !left ){ return quad_find( root->br, needle); }
+	else { exit(1); }
+}
+

@@ -13,10 +13,13 @@ struct Particle {
 struct QuadTree {
 	struct QuadNode *root;
 	uint32_t capacity;
+	//uint16_t position_x;
+	//uint16_t position_y;
 };
 
 struct QuadNode {
-        bool is_leaf;
+	uint16_t position_x;
+	uint16_t position_y;
 
         struct QuadNode *tl;
         struct QuadNode *tr;

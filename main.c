@@ -53,7 +53,6 @@ int main(){
 		SDL_RenderClear( renderer );
 		SDL_SetRenderDrawColor( renderer, 255, 100, 100, 255 );
 
-		struct QuadNode *current;
 		for( int i = 0; i < amount; i++ ){
 
 			cells[i].position_x = ( cells[i].position_x + cells[i].velocity_x );
@@ -64,12 +63,17 @@ int main(){
 			if ( cells[i].position_x < 0 || cells[i].position_x > size_x ){ cells[i].velocity_x *= -1; }
 			if ( cells[i].position_y < 0 || cells[i].position_y > size_y ){ cells[i].velocity_y *= -1; }
 			
+			
+
 			quad_insert( &tree, &cells[i] );
 
 			//collision detection
 
 
 		}
+
+		quad_free( tree.root );
+		tree.root = NULL;
 		
 
 		SDL_RenderFillRects( renderer, rectangles, amount );

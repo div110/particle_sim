@@ -10,6 +10,9 @@ struct QuadNode *make_quadnode( uint16_t center_x, uint16_t center_y ,uint32_t l
 	struct QuadNode *node = malloc( sizeof( struct QuadNode ) );
 	if ( !node ){ return NULL; }
 
+	node->position_x = center_x;
+	node->position_y = center_y;
+
 	node->tl = NULL;
 	node->tr = NULL;
 	node->bl = NULL;
@@ -72,19 +75,19 @@ void quad_remove_particle( struct QuadNode *node, struct Particle *particle ){
 	}
 }
 
-struct QuadNode *quad_find( struct QuadNode *root, struct Particle *needle ){
-	if ( !root ){ return NULL; }
-	for ( uint8_t i = 0; i < root->p_index; i++ ){
-		if ( root->particles[ i ] == needle ){ return root; }
+struct QuadNode *quad_find( struct QuadNode *node, struct Particle *particle ){
+	if ( !node ){ return NULL; }
+	for ( uint8_t i = 0; i < node->p_index; i++ ){
+		if ( node->particles[ i ] == particle ){ return node; }
 	}
 
 	bool left = ( particle->position_x < node->position_x ) ? true : false ;
 	bool top = ( particle->position_y < node->position_y ) ? true : false;
 
-	if ( top && left ){ return quad_find( root->tl, needle ); }
-	else if ( top && !left ){ return quad_find( root->tr, needle); }
-	else if ( !top && left ){ return quad_find( root->bl, needle); }
-	else if ( !top && !left ){ return quad_find( root->br, needle); }
+	if ( top && left ){ return quad_find( node->tl, particle ); }
+	else if ( top && !left ){ return quad_find( node->tr, particle); }
+	else if ( !top && left ){ return quad_find( node->bl, particle); }
+	else if ( !top && !left ){ return quad_find( node->br, particle); }
 	else { exit(1); }
 }
 

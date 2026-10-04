@@ -21,6 +21,10 @@ int main(){
 	SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
 	SDL_RenderClear( renderer );
 
+	//setting quadtree
+	struct QuadTree tree = { NULL, 4 };
+
+	//setting particles
 	int amount = 20;
 	struct Particle *cells = calloc( sizeof( struct Particle ), amount );
 	SDL_Rect rectangles[amount];
@@ -33,9 +37,14 @@ int main(){
 
 		rectangles[i].w = 3;
 		rectangles[i].h = 3;
+
 	}
+	
 
 
+
+	
+	//setting time
 	uint32_t time_start;
 	uint16_t delta;
 	while( true ){

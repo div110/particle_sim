@@ -5,6 +5,7 @@
 #include <assert.h>
 
 #include "quadlib.h"
+#include "collisions.h"
 
 
 uint16_t size_x = 680;
@@ -27,7 +28,7 @@ int main(){
 	struct QuadTree tree = { NULL, 8 };
 
 	//setting particles
-	int amount = 500;
+	int amount = 100;
 	struct Particle *cells = calloc( sizeof( struct Particle ), amount );
 	assert( cells );
 	SDL_Rect rectangles[amount];
@@ -53,7 +54,7 @@ int main(){
 		SDL_RenderClear( renderer );
 		SDL_SetRenderDrawColor( renderer, 255, 100, 100, 255 );
 
-		for( int i = 0; i < amount; i++ ){
+		for ( uint8_t i = 0; i < amount; i++ ){
 
 			cells[i].position_x = ( cells[i].position_x + cells[i].velocity_x );
 			cells[i].position_y = ( cells[i].position_y + cells[i].velocity_y );
@@ -62,14 +63,14 @@ int main(){
 
 			if ( cells[i].position_x < 0 || cells[i].position_x > size_x ){ cells[i].velocity_x *= -1; }
 			if ( cells[i].position_y < 0 || cells[i].position_y > size_y ){ cells[i].velocity_y *= -1; }
-			
-			
+		}
 
+
+		struct Particle *particle = NULL;
+		for ( uint8_t i = 0; i < amount; i++ ){
+			particle = collision_detection( tree.root, &cells[i] );
+			if ( particle ){ collide( particle, &cells[i] ); }
 			quad_insert( &tree, &cells[i] );
-
-			//collision detection
-
-
 		}
 
 		quad_free( tree.root );

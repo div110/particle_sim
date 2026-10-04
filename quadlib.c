@@ -3,7 +3,6 @@
 #include <stdbool.h>
 #include "quadlib.h"
 
-//
 #include <stdio.h>
 
 

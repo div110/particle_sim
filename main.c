@@ -38,6 +38,7 @@ int main(){
 		rectangles[i].w = 3;
 		rectangles[i].h = 3;
 
+		quad_insert( &tree, &cells[i] );
 	}
 	
 

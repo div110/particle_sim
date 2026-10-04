@@ -3,10 +3,13 @@
 #include <stdbool.h>
 #include "quadlib.h"
 
+//
+#include <stdio.h>
 
 
 
 struct QuadNode *make_quadnode( uint16_t center_x, uint16_t center_y ,uint32_t length ){  
+	printf("sizeof(struct QuadNode) : %ld\n", sizeof(struct QuadNode));
 	struct QuadNode *node = malloc( sizeof( struct QuadNode ) );
 	if ( !node ){ return NULL; }
 
@@ -18,7 +21,8 @@ struct QuadNode *make_quadnode( uint16_t center_x, uint16_t center_y ,uint32_t l
 	node->bl = NULL;
 	node->br = NULL;
 
-	node->particles = malloc( sizeof( struct Particle ) * length );
+	printf("sizeof(struct Particle)\n");
+	node->particles = malloc( sizeof( struct Particle * ) * length );
 	if ( !node->particles ){ free( node ); return NULL; }
 	node->p_index = 0;
 	node->p_length = length;
@@ -27,11 +31,15 @@ struct QuadNode *make_quadnode( uint16_t center_x, uint16_t center_y ,uint32_t l
 }
 
 bool insert_rec( struct QuadNode *node, struct Particle *particle ){
-	bool left = ( particle->position_x < node->position_x ) ? true : false ;
+	bool left = ( particle->position_x < node->position_x ) ? true : false;
 	bool top = ( particle->position_y < node->position_y ) ? true : false;
 
 	if ( node->p_index < node->p_length ) { 
-		node->particles[node->p_index] = particle; node->p_index++; 
+		printf("p_index: %d\np_length: %d\nsizeof(part): %ld\n",\
+			node->p_index, node->p_length, sizeof( struct Particle ));
+		printf( "%p\n", &node->particles[node->p_index] );
+		node->particles[node->p_index] = particle; 
+		node->p_index++; 
 		return true;
 	}
 	

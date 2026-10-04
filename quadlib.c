@@ -7,10 +7,6 @@
 #include <stdio.h>
 
 
-bool is_equal( struct Particle p1, struct Particle p2 ){
-	return p1.velocity_x == p2.velocity_x && p1.velocity_y == p2.velocity_y \
-		&& p1.position_x == p2.position_x && p1.position_y == p2.position_y;
-}
 
 struct QuadNode *make_quadnode( uint16_t center_x, uint16_t center_y ,uint32_t length ){  
 	struct QuadNode *node = malloc( sizeof( struct QuadNode ) );
@@ -110,4 +106,16 @@ void quad_print( struct QuadNode *node ){
 	quad_print(node->tr);
 	quad_print(node->bl);
 	quad_print(node->br);
+}
+
+
+void quad_free( struct QuadNode *node ){
+	if ( !node ){ return; }
+
+	free( node->particles );
+	free( node->tl );
+	free( node->tr );
+	free( node->bl );
+	free( node->br );
+	free( node );
 }

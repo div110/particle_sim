@@ -35,4 +35,5 @@ bool quad_insert( struct QuadTree *tree, struct Particle *particle );
 void quad_remove_particle( struct QuadNode *node, struct Particle *particle );
 struct QuadNode *quad_find( struct QuadNode *node, struct Particle *particle );
 void quad_print( struct QuadNode *node );
+void quad_free( struct QuadNode *node );
 #endif

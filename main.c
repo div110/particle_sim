@@ -24,7 +24,7 @@ int main(){
 	SDL_RenderClear( renderer );
 
 	//setting quadtree
-	struct QuadTree tree = { NULL, 4 };
+	struct QuadTree tree = { NULL, 8 };
 
 	//setting particles
 	int amount = 500;
@@ -41,7 +41,6 @@ int main(){
 		rectangles[i].w = 3;
 		rectangles[i].h = 3;
 
-		assert( quad_insert( &tree, &cells[i] ) );
 	}
 
 
@@ -57,9 +56,6 @@ int main(){
 		struct QuadNode *current;
 		for( int i = 0; i < amount; i++ ){
 
-			current = quad_find( tree.root, &cells[i] );
-			quad_remove_particle( current, &cells[i] );
-
 			cells[i].position_x = ( cells[i].position_x + cells[i].velocity_x );
 			cells[i].position_y = ( cells[i].position_y + cells[i].velocity_y );
 			rectangles[i].x = cells[i].position_x - 1;
@@ -68,11 +64,13 @@ int main(){
 			if ( cells[i].position_x < 0 || cells[i].position_x > size_x ){ cells[i].velocity_x *= -1; }
 			if ( cells[i].position_y < 0 || cells[i].position_y > size_y ){ cells[i].velocity_y *= -1; }
 			
-			//collision detection
-
 			quad_insert( &tree, &cells[i] );
 
+			//collision detection
+
+
 		}
+		
 
 		SDL_RenderFillRects( renderer, rectangles, amount );
 		SDL_RenderPresent( renderer );

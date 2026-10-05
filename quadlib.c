@@ -67,7 +67,7 @@ bool quad_insert( struct QuadTree *tree, struct Particle *particle ){
 }
 
 void quad_remove_particle( struct QuadNode *node, struct Particle *particle ){
-	uint8_t i = 0;
+	uint16_t i = 0;
 	for ( ; i < node->p_index; i++ ){
 		if ( node->particles[ i ] == particle  ){ break; }
 	}
@@ -79,7 +79,7 @@ void quad_remove_particle( struct QuadNode *node, struct Particle *particle ){
 
 struct QuadNode *quad_find( struct QuadNode *node, struct Particle *particle ){
 	if ( !node ){ return NULL; }
-	for ( uint8_t i = 0; i < node->p_index; i++ ){
+	for ( uint16_t i = 0; i < node->p_index; i++ ){
 		if ( node->particles[ i ] == particle  ){ return node; }
 	}
 
@@ -96,7 +96,7 @@ struct QuadNode *quad_find( struct QuadNode *node, struct Particle *particle ){
 void quad_print( struct QuadNode *node ){
 	if ( !node ){ return; }
 
-	for ( uint8_t i = 0; i < node->p_index; i++ ){
+	for ( uint16_t i = 0; i < node->p_index; i++ ){
 		printf("%p\n", node->particles[i]);
 		printf("----------------\n");
 	}
@@ -112,9 +112,9 @@ void quad_free( struct QuadNode *node ){
 	if ( !node ){ return; }
 
 	free( node->particles );
-	free( node->tl );
-	free( node->tr );
-	free( node->bl );
-	free( node->br );
+	quad_free( node->tl );
+	quad_free( node->tr );
+	quad_free( node->bl );
+	quad_free( node->br );
 	free( node );
 }

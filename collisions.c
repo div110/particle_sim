@@ -1,7 +1,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
+//#include <math.h>
 #include "quadlib.h"
+
+
 
 bool is_collision( struct Particle *p1, struct Particle *p2 ){
         return ( p1->position_x == p2->position_x ) && ( p1->position_y == p2->position_y );
@@ -10,7 +13,7 @@ bool is_collision( struct Particle *p1, struct Particle *p2 ){
 struct Particle *collision_detection( struct QuadNode *node, struct Particle *particle ){
         if ( !node || !particle ){ return NULL; }
 
-        for ( uint8_t i = 0; i < node->p_index; i++ ){
+        for ( uint16_t i = 0; i < node->p_index; i++ ){
                 if ( is_collision( particle, node->particles[i] ) ){ return node->particles[i]; }
         }
 
@@ -31,4 +34,18 @@ void collide( struct Particle *p1, struct Particle *p2 ){
 	p1->velocity_y *= -1;
 	p2->velocity_x *= -1;
 	p2->velocity_y *= -1;
+
+	//float dvx = p1->velocity_x - p2->velocity_x;
+	//float dvy = p1->velocity_y - p2->velocity_y;
+	//float d_length = hypot( dvx, dvy );
+
+	//dvx /= d_length;
+	//dvy /= d_length;
+
+	//float dot_v1n = p1->velocity_x * dvx + p1->velocity_y * dvy;
+	//float dot_v2n = p2->velocity_x * dvx + p2->velocity_y * dvy;
+	//rint();
+
+
+
 }

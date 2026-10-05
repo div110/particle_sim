@@ -25,11 +25,11 @@ int main(){
 	SDL_RenderClear( renderer );
 
 	//setting quadtree
-	struct QuadTree tree = { NULL, 8 };
+	struct QuadTree tree = { NULL, 16 };
 
 	//setting particles
 	int amount = 100;
-	struct Particle *cells = calloc( sizeof( struct Particle ), amount );
+	struct Particle *cells = malloc( sizeof( struct Particle ) * amount );
 	assert( cells );
 	SDL_Rect rectangles[amount];
 	
@@ -54,7 +54,7 @@ int main(){
 		SDL_RenderClear( renderer );
 		SDL_SetRenderDrawColor( renderer, 255, 100, 100, 255 );
 
-		for ( uint8_t i = 0; i < amount; i++ ){
+		for ( uint16_t i = 0; i < amount; i++ ){
 
 			cells[i].position_x = ( cells[i].position_x + cells[i].velocity_x );
 			cells[i].position_y = ( cells[i].position_y + cells[i].velocity_y );
@@ -67,10 +67,10 @@ int main(){
 
 
 		struct Particle *particle = NULL;
-		for ( uint8_t i = 0; i < amount; i++ ){
+		for ( uint16_t i = 0; i < amount; i++ ){
 			particle = collision_detection( tree.root, &cells[i] );
 			if ( particle ){ collide( particle, &cells[i] ); }
-			quad_insert( &tree, &cells[i] );
+			assert( quad_insert( &tree, &cells[i] ) );
 		}
 
 		quad_free( tree.root );

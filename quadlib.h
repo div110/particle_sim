@@ -3,11 +3,11 @@
 
 //TODO
 struct Particle {
-        int8_t velocity_x;
-        int8_t velocity_y;
+        float velocity_x;
+        float velocity_y;
 
-        uint16_t position_x;
-        uint16_t position_y;
+        float position_x;
+        float position_y;
 };
 
 struct QuadTree {

@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
-//#include <math.h>
+#include <math.h>
 #include "quadlib.h"
 
 
@@ -34,18 +34,5 @@ void collide( struct Particle *p1, struct Particle *p2 ){
 	p1->velocity_y *= -1;
 	p2->velocity_x *= -1;
 	p2->velocity_y *= -1;
-
-	//float dvx = p1->velocity_x - p2->velocity_x;
-	//float dvy = p1->velocity_y - p2->velocity_y;
-	//float d_length = hypot( dvx, dvy );
-
-	//dvx /= d_length;
-	//dvy /= d_length;
-
-	//float dot_v1n = p1->velocity_x * dvx + p1->velocity_y * dvy;
-	//float dot_v2n = p2->velocity_x * dvx + p2->velocity_y * dvy;
-	//rint();
-
-
 
 }

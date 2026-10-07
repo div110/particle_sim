@@ -7,6 +7,7 @@
 
 #include "quadlib.h"
 #include "collisions.h"
+#include "particles.h"
 
 
 uint16_t size_x = 680;
@@ -29,7 +30,7 @@ int main(){
 	struct QuadTree tree = { NULL, 16 };
 
 	//setting particles
-	int amount = 5000;
+	uint32_t amount = 5000;
 	struct Particle *cells = malloc( sizeof( struct Particle ) * amount );
 	assert( cells );
 	SDL_Rect rectangles[amount];
@@ -55,19 +56,7 @@ int main(){
 		SDL_RenderClear( renderer );
 		SDL_SetRenderDrawColor( renderer, 200, 200, 200, 255 );
 
-		for ( uint16_t i = 0; i < amount; i++ ){
-
-			cells[i].position_x = ( cells[i].position_x + cells[i].velocity_x );
-			cells[i].position_y = ( cells[i].position_y + cells[i].velocity_y );
-			rectangles[i].x = cells[i].position_x;
-			rectangles[i].y = cells[i].position_y;
-
-			if ( cells[i].position_x < 0 || cells[i].position_x > size_x ){ cells[i].velocity_x *= -1; }
-			if ( cells[i].position_y < 0 || cells[i].position_y > size_y - 3 ){ cells[i].velocity_y *= -0.3f; }
-
-			if ( !( cells[i].position_y > size_y - 3 ) ){ cells[i].velocity_y += 0.1; }
-		}
-
+		move_particles( cells, rectangles, amount, size_x, size_y );
 
 		struct Particle *particle = NULL;
 		for ( uint16_t i = 0; i < amount; i++ ){
@@ -87,7 +76,7 @@ int main(){
 		SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
 
 		delta = SDL_GetTicks() - time_start; 
-		if ( delta < 8 ){ SDL_Delay( 8 - delta ); }
+		if ( delta < 16 ){ SDL_Delay( 16 - delta ); }
 	}
 
 	return 0;

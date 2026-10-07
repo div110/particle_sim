@@ -40,8 +40,8 @@ int main(){
 		cells[i].velocity_x = (rand() % 100 - 50) / (float)100;
 		cells[i].velocity_y = (rand() % 100 - 50) / (float)100;
 
-		rectangles[i].w = 3;
-		rectangles[i].h = 3;
+		rectangles[i].w = 1;
+		rectangles[i].h = 1;
 	}
 
 
@@ -53,41 +53,42 @@ int main(){
 	while( true ){
 		time_start = SDL_GetTicks();
 		SDL_RenderClear( renderer );
-		SDL_SetRenderDrawColor( renderer, 128, 128, 128, 255 );
+		SDL_SetRenderDrawColor( renderer, 200, 200, 200, 255 );
 
 		for ( uint16_t i = 0; i < amount; i++ ){
 
 			cells[i].position_x = ( cells[i].position_x + cells[i].velocity_x );
 			cells[i].position_y = ( cells[i].position_y + cells[i].velocity_y );
-			rectangles[i].x = cells[i].position_x - 1;
-			rectangles[i].y = cells[i].position_y - 1;
+			rectangles[i].x = cells[i].position_x;
+			rectangles[i].y = cells[i].position_y;
 
 			if ( cells[i].position_x < 0 || cells[i].position_x > size_x ){ cells[i].velocity_x *= -1; }
-			if ( cells[i].position_y < 0 || cells[i].position_y > size_y ){ cells[i].velocity_y *= -1; }
+			if ( cells[i].position_y < 0 || cells[i].position_y > size_y - 3 ){ cells[i].velocity_y *= -0.3f; }
+
+			if ( !( cells[i].position_y > size_y - 3 ) ){ cells[i].velocity_y += 0.1; }
 		}
 
 
 		struct Particle *particle = NULL;
 		for ( uint16_t i = 0; i < amount; i++ ){
 			particle = collision_detection( tree.root, &cells[i] );
-			if ( particle ){ collide( particle, &cells[i] );}
+			if ( particle ){ collide( particle, &cells[i] ); }
 			assert( quad_insert( &tree, &cells[i] ) );
 		}
 
 		quad_free( tree.root );
 		tree.root = NULL;
-		
+
 
 		SDL_RenderFillRects( renderer, rectangles, amount );
 		SDL_RenderPresent( renderer );
 
 
 		SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
-		
+
 		delta = SDL_GetTicks() - time_start; 
 		if ( delta < 8 ){ SDL_Delay( 8 - delta ); }
 	}
 
 	return 0;
-	
 }

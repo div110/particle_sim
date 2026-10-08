@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <assert.h>
 #include <stdio.h>
+#include <pthread.h>
 
 #include "quadlib.h"
 #include "collisions.h"
@@ -15,19 +16,19 @@ uint16_t size_y = 420;
 
 
 int main(){
+	SDL_Event event;
 	SDL_Window *window = NULL;
 	SDL_Renderer *renderer = NULL;
 
 	SDL_Init( SDL_INIT_VIDEO );
 	SDL_CreateWindowAndRenderer( size_x, size_y, 0, &window, &renderer );
 
-	SDL_Event event;
 
 	SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
 	SDL_RenderClear( renderer );
 
 	//setting quadtree
-	struct QuadTree tree = { NULL, 16 };
+	struct QuadTree tree = { NULL, 128 };
 
 	//setting particles
 	uint32_t amount = 5000;
@@ -45,7 +46,6 @@ int main(){
 		rectangles[i].h = 1;
 	}
 
-
 	
 	
 	//setting time
@@ -56,19 +56,20 @@ int main(){
 		SDL_RenderClear( renderer );
 		SDL_SetRenderDrawColor( renderer, 200, 200, 200, 255 );
 
-		move_particles( cells, rectangles, amount, size_x, size_y );
+		update_particles( cells, rectangles, amount, size_x, size_y );
+		attract_particles( cells, amount, 300, 300 );
 
 		struct Particle *particle = NULL;
-		for ( uint16_t i = 0; i < amount; i++ ){
+		for ( uint32_t i = 0; i < amount; i++ ){
 			particle = collision_detection( tree.root, &cells[i] );
 			if ( particle ){ collide( particle, &cells[i] ); }
 			assert( quad_insert( &tree, &cells[i] ) );
 		}
-
+		
 		quad_free( tree.root );
 		tree.root = NULL;
 
-
+		
 		SDL_RenderFillRects( renderer, rectangles, amount );
 		SDL_RenderPresent( renderer );
 

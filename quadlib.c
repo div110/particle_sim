@@ -67,6 +67,7 @@ bool quad_insert( struct QuadTree *tree, struct Particle *particle ){
 }
 
 void quad_remove_particle( struct QuadNode *node, struct Particle *particle ){
+	if( !node || !particle ){ return; }
 	uint16_t i = 0;
 	for ( ; i < node->p_index; i++ ){
 		if ( node->particles[ i ] == particle  ){ break; }

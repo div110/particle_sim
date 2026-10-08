@@ -16,10 +16,10 @@ void update_particles( struct Particle *particles, SDL_Rect *rectangles, uint32_
 		rectangles[i].x = body->position_x;
 		rectangles[i].y = body->position_y;
 
-		if ( body->position_x < 0 || body->position_x > w ){ body->velocity_x *= -1; }
-		if ( body->position_y < 0 || body->position_y > h - 3 ){ body->velocity_y *= -0.4f; }
+		if ( body->position_x < 0 || body->position_x > w ){ body->velocity_x *= -1.0f; }
+		if ( body->position_y < 0 || body->position_y > h - 3 ){ body->velocity_y *= -1.0f; }
 
-		if ( !( body->position_y > h - 3 ) ){ body->velocity_y += 0.1f; }
+		//if ( !( body->position_y > h - 3 ) ){ body->velocity_y += 0.1f; }
 	}
 }
 
@@ -41,7 +41,9 @@ void attract_particles( struct Particle *particles, uint32_t amount, uint16_t x,
 		dx /= length;
 		dy /= length;
 
-		particles[i].velocity_x += dx;
-		particles[i].velocity_y += dy;
+		//particles[i].velocity_x += dx;
+		//particles[i].velocity_y += dy;
+		particles[i].position_x += dx;
+		particles[i].position_y += dy;	
 	}
 }

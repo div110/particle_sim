@@ -31,7 +31,7 @@ int main(){
 	struct QuadTree tree = { NULL, 128 };
 
 	//setting particles
-	uint32_t amount = 5000;
+	uint32_t amount = 3000;
 	struct Particle *cells = malloc( sizeof( struct Particle ) * amount );
 	assert( cells );
 	SDL_Rect rectangles[amount];
@@ -51,13 +51,43 @@ int main(){
 	//setting time
 	uint32_t time_start;
 	uint16_t delta;
+	bool button_down = false;
+	uint16_t button_x;
+	uint16_t button_y;
 	while( true ){
 		time_start = SDL_GetTicks();
 		SDL_RenderClear( renderer );
 		SDL_SetRenderDrawColor( renderer, 200, 200, 200, 255 );
+		SDL_PollEvent( &event );
+
+		//if ( event.type == SDL_MOUSEBUTTONDOWN ){ 
+		//	button_down = true; 
+		//	button_x = event.button.x;
+		//	button_y = event.button.y;
+		//}
+		//else if ( event.type == SDL_MOUSEBUTTONUP ){ button_down = false; }
+		//else if ( event.type == SDL_MOUSEMOTION ){ button_x = event.motion.x; button_y = event.motion.y; }
+		
+		switch( event.type ){
+			case SDL_MOUSEBUTTONDOWN:
+				button_down = true;
+				button_x = event.button.x;
+				button_y = event.button.y;
+				break;
+			case SDL_MOUSEBUTTONUP:
+				button_down = false;
+				break;
+			case SDL_MOUSEMOTION:
+				button_x = event.motion.x;
+				button_y = event.motion.y;
+				break;
+		}
+
+
+		if ( button_down ){ attract_particles( cells, amount, button_x, button_y ); }
 
 		update_particles( cells, rectangles, amount, size_x, size_y );
-		attract_particles( cells, amount, 300, 300 );
+
 
 		struct Particle *particle = NULL;
 		for ( uint32_t i = 0; i < amount; i++ ){

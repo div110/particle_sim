@@ -52,6 +52,7 @@ int main(){
 	uint32_t time_start;
 	uint16_t delta;
 	bool button_down = false;
+	bool button_side = false;
 	uint16_t button_x;
 	uint16_t button_y;
 	while( true ){
@@ -60,19 +61,12 @@ int main(){
 		SDL_SetRenderDrawColor( renderer, 200, 200, 200, 255 );
 		SDL_PollEvent( &event );
 
-		//if ( event.type == SDL_MOUSEBUTTONDOWN ){ 
-		//	button_down = true; 
-		//	button_x = event.button.x;
-		//	button_y = event.button.y;
-		//}
-		//else if ( event.type == SDL_MOUSEBUTTONUP ){ button_down = false; }
-		//else if ( event.type == SDL_MOUSEMOTION ){ button_x = event.motion.x; button_y = event.motion.y; }
-		
 		switch( event.type ){
 			case SDL_MOUSEBUTTONDOWN:
 				button_down = true;
 				button_x = event.button.x;
 				button_y = event.button.y;
+				button_side = ( event.button.button == SDL_BUTTON_LEFT ) ? false : true;
 				break;
 			case SDL_MOUSEBUTTONUP:
 				button_down = false;
@@ -84,8 +78,8 @@ int main(){
 		}
 
 
-		if ( button_down ){ attract_particles( cells, amount, button_x, button_y ); }
-
+		if ( button_down && !button_side ){ attract_particles( cells, amount, button_x, button_y ); }
+		else if ( button_down && button_side ){ repel_particles( cells, amount, button_x, button_y ); }
 		update_particles( cells, rectangles, amount, size_x, size_y );
 
 

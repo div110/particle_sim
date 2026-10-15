@@ -9,8 +9,7 @@
 bool is_collision( struct Particle *p1, struct Particle *p2 ){
 	float dx = p1->position_x - p2->position_x;
 	float dy = p1->position_y - p2->position_y;
-        return ( fabs( dx * dx ) <= 9 ) \
-	&& ( fabs( dy * dy ) <= 9 );
+        return ( dx * dx + dy * dy <= 9 );
 }
 
 struct Particle *collision_detection( struct QuadNode *node, struct Particle *particle ){

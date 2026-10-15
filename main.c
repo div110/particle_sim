@@ -31,7 +31,7 @@ int main(){
 	struct QuadTree tree = { NULL, 128 };
 
 	//setting particles
-	uint32_t amount = 3000;
+	uint32_t amount = 5000;
 	struct Particle *cells = malloc( sizeof( struct Particle ) * amount );
 	assert( cells );
 	SDL_Rect rectangles[amount];
